@@ -9,7 +9,7 @@ void IRPayload::begin() {
 }
 
 IRPayload::PayloadData IRPayload::generatePayload(bool isShot, int team, bool successfulHit, bool shieldOn) {
-    PayloadData data;
+    IRPayload::PayloadData data;
 
     int bit1 = (team & 1) * 1000 + 1000;
     int bit2 = ((team >> 1) & 1) * 1000 + 1000;
@@ -27,6 +27,7 @@ IRPayload::PayloadData IRPayload::generatePayload(bool isShot, int team, bool su
     return data;
 }
 
-void IRPayload::sendPayload(PayloadData data) {
+void IRPayload::sendPayload(IRPayload::PayloadData data) {
     irsend.sendRaw(data.payload, data.size, 38);
+    delete[] data.payload; // Free allocated memory
 }
