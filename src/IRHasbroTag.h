@@ -7,7 +7,7 @@
 
 class IRHasbroTag {
 public:
-    explicit IRHasbroTag(uint8_t sendPin); // Constructor
+    explicit IRHasbroTag(uint8_t sendPin, uint8_t recvPin); // Constructor
     ~IRHasbroTag();
 
     struct PayloadData {
@@ -28,11 +28,11 @@ public:
     IRData readShotData(uint16_t *dataArray, int dataSize);
 
     void sendPayload(PayloadData data);
-    int getPayload(uint16_t *dataArray);
+    int getPayload(uint16_t *dataArray, int dataSize);
 
 private:
     IRsend irsend;   // IRsend instance
-    IRrecv *irrecv;  // Pointer to IRrecv instance
+    IRrecv irrecv;  // Pointer to IRrecv instance
 };
 
 #endif // IRHasbroTag_H

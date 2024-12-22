@@ -2,19 +2,14 @@
 #include <IRsend.h>
 #include <IRrecv.h> // Added include for IRrecv to decode signals
 
-IRHasbroTag::IRHasbroTag(uint8_t sendPin) : irsend(sendPin), irrecv(nullptr) {} // Initialize irrecv to nullptr
+IRHasbroTag::IRHasbroTag(uint8_t sendPin, uint8_t recvPin) : irsend(sendPin), irrecv(recvPin, 1024, 15, true) {} // Initialize irrecv to nullptr
 
 IRHasbroTag::~IRHasbroTag() {
-    // Free any dynamically allocated memory
-    if (irrecv != nullptr) {
-        delete irrecv;
-    }
 }
 
 void IRHasbroTag::begin() {
     irsend.begin();
-    irrecv = new IRrecv(18); // Set a default pin for receiving
-    irrecv->enableIRIn();    // Start the receiver
+    irrecv.enableIRIn();    // Start the receiver
 }
 
 IRHasbroTag::PayloadData IRHasbroTag::generatePayload(bool isShot, int team, bool successfulHit, bool shieldOn, bool megaShot) {
@@ -46,17 +41,12 @@ void IRHasbroTag::sendPayload(IRHasbroTag::PayloadData data) {
     }
 }
 
-int IRHasbroTag::getPayload(uint16_t *dataArray) {
-    if (irrecv == nullptr) {
-        Serial.println("IRrecv instance not initialized.");
-        return 0;
-    }
-
+int IRHasbroTag::getPayload(uint16_t *dataArray, int arraydataSize) {
     decode_results results;
-    if (irrecv->decode(&results)) {
-        irrecv->resume();
+    if (irrecv.decode(&results)) {
+        irrecv.resume();
         
-        int dataSize = (results.rawlen < 30) ? results.rawlen : 30;
+        int dataSize = (results.rawlen < arraydataSize) ? results.rawlen : arraydataSize;
         for (int i = 1; i < dataSize; i++) {
             dataArray[i-1] = results.rawbuf[i] * 2; // Scale raw buffer values
         }

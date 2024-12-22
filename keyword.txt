@@ -1,3 +1,0 @@
-IRHasbroTag    KEYWORD1
-generatePayload    KEYWORD2
-sendPayload    KEYWORD2

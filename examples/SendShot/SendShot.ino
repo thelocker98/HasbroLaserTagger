@@ -1,23 +1,24 @@
-#include <IRHasbroTag.h>
+#include "IRHasbroTag.h"
 
-IRHasbroTag IRHasbroTag(23); // Initialize with pin 23
+// tag(irsend_pin, irrecv_pin);
+IRHasbroTag tag(23, 18); // Create an instance of IRHasbroTag 
+
+
+// variable to store ir payload
+IRHasbroTag::PayloadData ir_payload;
+
 
 void setup() {
-    Serial.begin(115200);
-    IRHasbroTag.begin();
+  Serial.begin(115200);
+  tag.begin(); // Initialize the IRHasbroTag
+  Serial.println("IRHasbroTag ready to transmit data.");
 }
 
 void loop() {
-    Serial.println("Sending a raw payload...");
-    
-    // Generate a payload with custom parameters
-    IRHasbroTag::PayloadData data = IRHasbroTag.generatePayload(false, 3, false, true);
+  // Generate a mega shot that will take two lives
+  ir_payload = tag.generatePayload(true, 0, false, false, true);
+  tag.sendPayload(ir_payload);
 
-    // Print payload size
-    Serial.println("Payload Length: " + String(data.size));
-
-    // Send the payload
-    IRHasbroTag.sendPayload(data);
-
-    delay(500); // Delay between transmissions
+  // wait to give the player a chance to escape
+  delay(1000);
 }
