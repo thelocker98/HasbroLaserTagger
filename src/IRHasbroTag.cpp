@@ -17,6 +17,7 @@ IRHasbroTag::PayloadData IRHasbroTag::generatePayload(bool isShot, int team, boo
 
     int bit1 = (team & 1) * 1000 + 1000;
     int bit2 = ((team >> 1) & 1) * 1000 + 1000;
+
     int shield = shieldOn ? 2000 : 1000;
     int hit = successfulHit ? 2000 : 1000;
     int mega = megaShot ? 2000 : 1000;
