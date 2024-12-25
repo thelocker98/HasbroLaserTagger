@@ -26,7 +26,7 @@ public:
     void begin();
     PayloadData generatePayload(bool isShot = true, int team = 0, bool successfulHit = false, bool shieldOn = false, bool megaShot = false);
     IRData readShotData(uint16_t *dataArray, int dataSize);
-    void printShotData(uint16_t *dataArray, int dataSize);
+    void printShotData(uint16_t *dataArray);
 
     void sendPayload(PayloadData data);
     int getPayload(uint16_t *dataArray, int dataSize);
