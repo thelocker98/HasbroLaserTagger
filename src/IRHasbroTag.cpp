@@ -92,7 +92,7 @@ IRHasbroTag::IRData IRHasbroTag::readShotData(uint16_t *dataArray, int dataSize)
     return shotData;
 }
 
-void IRHasbroTag::printShotData(uint16_t *dataArray, int dataSize) {
+void IRHasbroTag::printShotData(IRData shotData) {
 	// Display parsed shot data
 	Serial.print("Shot Detected: ");
 	Serial.println(shotData.isShot ? "Yes" : "No");
