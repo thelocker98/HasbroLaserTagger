@@ -36,7 +36,9 @@ IRHasbroTag::PayloadData IRHasbroTag::generatePayload(bool isShot, int team, boo
 
 void IRHasbroTag::sendPayload(IRHasbroTag::PayloadData data) {
     if (data.payload != nullptr) {
+		irrecv.pause();
         irsend.sendRaw(data.payload, data.size, 38); // Ensure data is valid
+		irrecv.resume();
         delete[] data.payload;                      // Free dynamically allocated memory
         data.payload = nullptr;                     // Prevent double deletion
     }
@@ -88,4 +90,24 @@ IRHasbroTag::IRData IRHasbroTag::readShotData(uint16_t *dataArray, int dataSize)
     }
 
     return shotData;
+}
+
+void IRHasbroTag::printShotData(uint16_t *dataArray, int dataSize) {
+	// Display parsed shot data
+	Serial.print("Shot Detected: ");
+	Serial.println(shotData.isShot ? "Yes" : "No");
+
+	Serial.print("Team: ");
+	Serial.println(shotData.team);
+
+	Serial.print("Successful Hit: ");
+	Serial.println(shotData.successfulHit ? "Yes" : "No");
+
+	Serial.print("Shield On: ");
+	Serial.println(shotData.shieldOn ? "Yes" : "No");
+
+	Serial.print("MegaShot: ");
+	Serial.println(shotData.megaShot ? "Yes" : "No");
+
+	Serial.println();
 }
