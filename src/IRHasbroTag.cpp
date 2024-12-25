@@ -92,22 +92,24 @@ IRHasbroTag::IRData IRHasbroTag::readShotData(uint16_t *dataArray, int dataSize)
     return shotData;
 }
 
-void IRHasbroTag::printShotData(IRData shotData) {
-	// Display parsed shot data
-	Serial.print("Shot Detected: ");
-	Serial.println(shotData.isShot ? "Yes" : "No");
+void IRHasbroTag::printShotData(IRData shotData, bool showNonShot = true) {
+	if (shotData.isShot) {
+		// Display parsed shot data
+		Serial.print("Shot Detected: ");
+		Serial.println(shotData.isShot ? "Yes" : "No");
 
-	Serial.print("Team: ");
-	Serial.println(shotData.team);
+		Serial.print("Team: ");
+		Serial.println(shotData.team);
 
-	Serial.print("Successful Hit: ");
-	Serial.println(shotData.successfulHit ? "Yes" : "No");
+		Serial.print("Successful Hit: ");
+		Serial.println(shotData.successfulHit ? "Yes" : "No");
 
-	Serial.print("Shield On: ");
-	Serial.println(shotData.shieldOn ? "Yes" : "No");
+		Serial.print("Shield On: ");
+		Serial.println(shotData.shieldOn ? "Yes" : "No");
 
-	Serial.print("MegaShot: ");
-	Serial.println(shotData.megaShot ? "Yes" : "No");
+		Serial.print("MegaShot: ");
+		Serial.println(shotData.megaShot ? "Yes" : "No");
 
-	Serial.println();
+		Serial.println();
+	}
 }

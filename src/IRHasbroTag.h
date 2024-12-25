@@ -28,7 +28,7 @@ public:
     IRData readShotData(uint16_t *dataArray, int dataSize);
     void printShotData(IRData shotData);
 
-    void sendPayload(PayloadData data);
+    void sendPayload(PayloadData data, bool showNonShot = true);
     int getPayload(uint16_t *dataArray, int dataSize);
 
 private:
